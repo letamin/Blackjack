@@ -1,4 +1,6 @@
-//Description: A blackjack game with computer
+/***********************Description: A blackjack game with computer***********************************/
+
+//This is the object to store all the data for the game.
 let blackjackGame = {
     'you': {'scoreSpan': '#your-blackjack-result', 'div': '#your-box', 'score': 0},
     'dealer': {'scoreSpan': '#dealer-blackjack-result', 'div': '#dealer-box', 'score': 0},
@@ -26,6 +28,7 @@ document.querySelector('#blackjack-hit-button').addEventListener('click', blackj
 document.querySelector('#blackjack-stand-button').addEventListener('click', dealerLogic);
 document.querySelector('#blackjack-deal-button').addEventListener('click', blackjackDeal);
 
+//When you click on the Hit button
 function blackjackHit() {
     if(blackjackGame['isStand'] === false && carNum < 5) {
         let card = randomCard();
@@ -33,15 +36,14 @@ function blackjackHit() {
         updateScore(card, YOU);
         showScore(YOU);
         carNum++;
-    } 
+        stand = true;
+    }
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
+/*When you click on the Stand button.
+You can only click this when you have played your turn (clicked on the Hit button)*/
 async function dealerLogic() {
-    if(stand === false) {
+    if(stand === true) {
         blackjackGame['isStand'] = true;
     
         while(DEALER['score'] < 16 && blackjackGame['isStand'] === true) {
@@ -56,9 +58,13 @@ async function dealerLogic() {
         let winner = decideWinner();
         showResult(winner);
     }
-    stand = true;
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+//Display the card on the table and play the sound
 function showCard(card, activePlayer) {
     if(activePlayer['score'] <= 21) {
         let cardImage = document.createElement('img');
@@ -68,6 +74,8 @@ function showCard(card, activePlayer) {
     } 
 }
 
+/*The Deal button. Can only be clicked once both players have played their turns.
+This will reset the game and put everything back to the begining (except for the record table)*/
 function blackjackDeal() {
     if(blackjackGame['turnsOver'] === true) {
         let yourImages = document.querySelector('#your-box').querySelectorAll('img');
@@ -100,11 +108,13 @@ function blackjackDeal() {
     }
 }
 
+//Random function to randomly choose the cards.
 function randomCard() {
     let randomIndex = Math.floor(Math.random() * 13);
     return blackjackGame['cards'][randomIndex];
 }
 
+//Counting the score for players
 function updateScore(card, activePlayer) {
     //All the cards will be stored in the scoreArray array. This array will be used later to determine the optimal score for player
     scoreArray.push(blackjackGame['cardsMap'][card]);
@@ -121,7 +131,7 @@ function updateScore(card, activePlayer) {
         activePlayer['score'] += blackjackGame['cardsMap'][card];
     }
     
-    /*When the player goes over 21 and has the Ace card, this will decide the optimal value for Ace card.*/
+    /*When the player goes over 21 and has the Ace card, this will decide the optimal value for Ace card (if it is best to be 1, 10 or 11)*/
     if(activePlayer['score'] > 21 && ace) {
         let score = 0;
         let max = 0;
@@ -141,6 +151,7 @@ function updateScore(card, activePlayer) {
     }
 }
 
+//Display the score on screen for players
 function showScore(activePlayer) {
     if(activePlayer['score'] > 21) {
         document.querySelector(activePlayer['scoreSpan']).textContent = "BUST!";
@@ -151,7 +162,7 @@ function showScore(activePlayer) {
 }
 
 /*Decide who win and return the winner
-Also update the wins, draws and losses in the table*/
+Also update the wins, draws and losses count in the table*/
 function decideWinner() {
     let winner;
     if(YOU['score'] <= 15){
@@ -177,7 +188,7 @@ function decideWinner() {
     return winner;
 }
 
-//Set the display message for Win, Draw or Loss
+//Set the display message/color for Win, Draw or Loss
 function showResult(winner) {
     let message, messageColor;
     
