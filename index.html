@@ -8,19 +8,45 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-------Customer css------->
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" async></script>
+    
 
     <title>Blackjack</title>
   </head>
 <body>
     <!-------Blackjack game------->
-    <div class="container">
-        <div class="header">
-            <h2>Challenge 5: Blackjack</h2>
-            <button class="btn-sm btn-success" data-tooltip="Try to get the higest score you can! But remember, it must be higher than the Bot, minimum at 16 and maximum at 21 or else, the bot will win. Click the Hit button to get a new card, Stand button to end your turn/start the Bot turn, and Deal to start a new game." id="guide">Guide</button>
-        </div>
-        <h3><span id="blackjack-result">Let's play</span></h3>
-        <div class="container-background">
+    
+    <div class="whole-container">
+        <div class="container">
+            <div class="header">
+                <div class="main-title">
+                    <h2>Blackjack</h2>
+                    <button class="btn-sm btn-success" data-tooltip="Try to get the higest score you can! But remember, your score must be higher than the Bot's, minimum at 16 and maximum at 21 or else, the bot will win. Click the Hit button to get a new card, Stand button to end your turn/start the Bot turn, and Deal to start a new game." id="guide"><a href="https://en.wikipedia.org/wiki/Blackjack" target="_blank">Guide</a></button>
+                </div>
+                <a href="#" class="toggle-button" id="toggle-button">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </a>
+                <div class="table-result invi statistic-table" id="statistic-table">
+                    <table>
+                        <thead>Your Statistics
+                            <tr>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                                <th>Draws</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span id="wins">0</span></td>
+                                <td><span id="losses">0</span></td>
+                                <td><span id="draws">0</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h3 id="lets-play"><span id="blackjack-result">Let's play</span></h3>
             <div class="flex-blackjack-row-1 blackjack-row">
                 <div id="your-box">
                     <h2>You: <span id="your-blackjack-result">0</span></h2>
@@ -30,29 +56,19 @@
                 </div>
             </div>
 
-            <div class="flex-blackjack-row-2 blackjack-row">
-                <div>
-                    <button class="btn-lg btn-primary mr-2" id="blackjack-hit-button">Hit</button>
-                    <button class="btn-lg btn-warning mr-2 text-white" id="blackjack-stand-button">Stand</button>
-                    <button class="btn-lg btn-danger" id="blackjack-deal-button">Deal</button>
-                </div>
+
+        </div>
+
+        <div class="blackjack-row command-button">
+            <div>
+                <button class="btn-lg btn-primary mr-2" id="blackjack-hit-button">Hit</button>
+                <button class="btn-lg btn-warning mr-2 text-white" id="blackjack-stand-button">Stand</button>
+                <button class="btn-lg btn-danger" id="blackjack-deal-button">Deal</button>
             </div>
         </div>
-        
-        <div class="flex-blackjack-row-3 blackjack-row">
-            <table>
-                <tr>
-                    <th>Wins</th>
-                    <th>Losses</th>
-                    <th>Draws</th>
-                </tr>
-                <tr>
-                    <td><span id="wins">0</span></td>
-                    <td><span id="losses">0</span></td>
-                    <td><span id="draws">0</span></td>
-                </tr>
-            </table>
-        </div>
-    </div> 
+    </div>
+
+   
+    <script src="script.js"></script>
 </body>
 </html>
