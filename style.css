@@ -68,7 +68,6 @@ table, th, td{
 }
 
 .main-title{
-    margin: auto auto;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -161,7 +160,6 @@ abbr[title] {
         top: 50px;
         left: 10px;
         background-color: #04330e;
-        
     }
     
     .table-result.invi{
