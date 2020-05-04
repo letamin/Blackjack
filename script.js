@@ -1,9 +1,9 @@
 /***********************Description: A blackjack game with computer***********************************/
 
-var toggleButton = document.getElementById('toggle-button')
-var statisticTable = document.getElementById('statistic-table')
+var toggleButton = document.getElementById('toggle-button');
+var statisticTable = document.getElementById('statistic-table');
 
-toggleButton.addEventListener('click', ()=>{
+toggleButton.addEventListener('click', ()=> {
     statisticTable.classList.toggle('invi');
 })
 
@@ -12,6 +12,7 @@ var blackjackGame = {
     'you': {'scoreSpan': '#your-blackjack-result', 'div': '#your-box', 'score': 0, 'cardNum': 0, scoreArray : [], 'ace': 0, checkWin: [], 'blackjack': false},
     'dealer': {'scoreSpan': '#dealer-blackjack-result', 'div': '#dealer-box', 'score': 0, 'cardNum': 0, scoreArray : [], 'ace': 0, checkWin: [], 'blackjack': false},
     'cards': ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'K', 'A', 'Q'],
+    'cardTypes': ['S', 'C', 'D' , 'H'],
     'cardsMap': {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10, 'J': 10, 'Q': 10, 'K': 10, 'A': [11, 10, 1]},
     'wins': 0,
     'losses': 0,
@@ -40,7 +41,8 @@ document.querySelector('#blackjack-deal-button').addEventListener('click', black
 function blackjackHit() {
     if(blackjackGame['isStand'] === false && blackjackGame.you.cardNum < 5 && blackjackGame.you.blackjack != true) {
         let card = randomCard();
-        showCard(card, YOU);
+        let cardType = randomCardType(card);
+        showCard(card, cardType, YOU);
         updateScore(card, YOU);
         showScore(YOU);
         blackjackGame.you.cardNum++;
@@ -57,7 +59,8 @@ async function dealerLogic() {
         
         while(DEALER['score'] < 16 && blackjackGame['isStand'] === true && blackjackGame.dealer.cardNum < 5) {
             let card = randomCard();
-            showCard(card, DEALER);
+            let cardType = randomCardType(card);
+            showCard(card, cardType, DEALER);
             updateScore(card, DEALER);
             showScore(DEALER);
             blackjackGame.dealer.cardNum++;
@@ -75,10 +78,10 @@ function sleep(ms) {
 }
 
 //Display the card on the table and play the sound
-function showCard(card, activePlayer) {
+function showCard(card, cardType, activePlayer) {
     if(activePlayer['score'] <= 21) {
         let cardImage = document.createElement('img');
-        cardImage.src = `images/${card}.png`;
+        cardImage.src = `images/${card+cardType}.png`;
         document.querySelector(activePlayer['div']).appendChild(cardImage);
         hitSound.play();
     } 
@@ -135,6 +138,12 @@ function reset() {
 function randomCard() {
     let randomIndex = Math.floor(Math.random() * 13);
     return blackjackGame['cards'][randomIndex];
+}
+
+//Random function to randomly choose the type of the cards (Heart, Diamon, Shade or Club)
+function randomCardType(card) {
+    let randomIndex = Math.floor(Math.random() * 4);
+    return (blackjackGame['cardTypes'][randomIndex]);
 }
 
 function updateScore(card, activePlayer) {
